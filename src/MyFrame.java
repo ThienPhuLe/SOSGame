@@ -5,21 +5,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
-public class MyFrame extends JFrame implements ActionListener {
+public class MyFrame extends JFrame {
+    radioPerfromedClass myAction = new radioPerfromedClass(this);
     Random random ;
     int size;
-    String player1Text = "S";
-    String player2Text = "S";
+    public String player1Text = "S";
+    public String player2Text = "S";
     int totalBoard ;
     ImageIcon image;
     JLabel label;
     JLabel labelBoard;
     JRadioButton generalRadio;
     JRadioButton simpleRadio;
-    JRadioButton player1ButtonS;
-    JRadioButton player1ButtonO;
-    JRadioButton player2ButtonS;
-    JRadioButton player2ButtonO;
+    public JRadioButton player1ButtonS;
+    public JRadioButton player1ButtonO;
+    public JRadioButton player2ButtonS;
+    public JRadioButton player2ButtonO;
     JRadioButton player1Human;
     JRadioButton player2Human;
     JRadioButton player1Computer;
@@ -40,9 +41,10 @@ public class MyFrame extends JFrame implements ActionListener {
     JButton replayButton;
     JButton newGmButton;
     JButton[] sosButtons;
-    JComboBox gameBoardSize;
+    private JComboBox gameBoardSize;
     boolean player1_turn;
     MyFrame(){
+
         // Main/Head Jpanel
 
         Border border = BorderFactory.createLineBorder(Color.BLACK,3);//Border color
@@ -56,9 +58,9 @@ public class MyFrame extends JFrame implements ActionListener {
         label = new JLabel();// Create a label
         labelBoard  = new JLabel();
         labelBoard.setText("Board Size: ");
-        Integer[] boardSizeSelection = {0, 3, 4, 5, 6, 7, 8, 9};
+        Integer[] boardSizeSelection = { 0, 3, 4, 5, 6, 7, 8, 9};
         gameBoardSize = new JComboBox(boardSizeSelection);
-        gameBoardSize.addActionListener(this);
+        //gameBoardSize.addActionListener(this);
         this.add(label);
         label.setIcon(image);
         label.setBackground(Color.white);
@@ -67,9 +69,7 @@ public class MyFrame extends JFrame implements ActionListener {
         labelBoard.setBounds(30,50,100,100);
         gameBoardSize.setBounds(110,90,50,20);
         generalRadio = new JRadioButton("General game");
-        generalRadio.addActionListener(this);
         simpleRadio = new JRadioButton("Simple game");
-        simpleRadio.addActionListener(this);
         simpleRadio.setSelected(true);
         gameType = new ButtonGroup();
         gameType.add(generalRadio);
@@ -95,34 +95,13 @@ public class MyFrame extends JFrame implements ActionListener {
         // Right Jpanel
         right_panel = new JPanel();
         right_panLabel = new JLabel();
-        player1ButtonS = new JRadioButton(new AbstractAction("S") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == player1ButtonS)
-                {
-                    player1Text = "S";
-                }
-            }
-        });
-
+        player1ButtonS = new JRadioButton("S");
         player1ButtonS.setSelected(true);
-
-        player1ButtonO = new JRadioButton(new AbstractAction("O") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == player1ButtonO)
-                {
-                    player1Text = "O";
-                }
-            }
-        });
-
-
-
+        player1ButtonS.addActionListener(myAction);
+        player1ButtonO = new JRadioButton("O");
+        player1ButtonO.addActionListener(myAction);
         player1Human = new JRadioButton("Human");
-        player1Human.addActionListener(this);
         player1Computer = new JRadioButton("Computer");
-        player1Computer.addActionListener(this);
         player1Group = new ButtonGroup();
         player1Type = new ButtonGroup();
         player1Group.add(player1ButtonS);
@@ -147,33 +126,13 @@ public class MyFrame extends JFrame implements ActionListener {
         //Left Jpanel
         left_panel = new JPanel();
         left_panLabel = new JLabel();
-        player2ButtonS = new JRadioButton(new AbstractAction("S") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == player2ButtonS)
-                {
-                    player2Text = "S";
-                }
-
-            }
-        });
-
+        player2ButtonS = new JRadioButton("S");
         player2ButtonS.setSelected(true);
-
-        player2ButtonO = new JRadioButton(new AbstractAction("O") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == player2ButtonO)
-                {
-                    player2Text = "O";
-                }
-            }
-        });
-
+        player2ButtonS.addActionListener(myAction);
+        player2ButtonO = new JRadioButton("O");
+        player2ButtonO.addActionListener(myAction);
         player2Computer = new JRadioButton("Computer");
-        player2Computer.addActionListener(this);
         player2Human = new JRadioButton("Human");
-        player2Human.addActionListener(this);
         player2Group = new ButtonGroup();
         player2Type = new ButtonGroup();
         left_panel.setLayout(null);
@@ -224,81 +183,18 @@ public class MyFrame extends JFrame implements ActionListener {
 
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == gameBoardSize)
-        {
-            firstTurn();
-            buttonPanel.removeAll();
-            revalidate();
-            repaint();
-            totalBoard = (int) gameBoardSize.getSelectedItem() * (int) gameBoardSize.getSelectedItem();
-            sosButtons = new JButton[totalBoard];
-            buttonPanel.setBorder(buttonPanel.getBorder());
-            buttonPanel.setLayout(new GridLayout((int) gameBoardSize.getSelectedItem(),(int) gameBoardSize.getSelectedItem()));
-            buttonPanel.setBackground(Color.LIGHT_GRAY);
 
-            if ((int) gameBoardSize.getSelectedItem() == 3 || (int) gameBoardSize.getSelectedItem() == 4 ||  (int) gameBoardSize.getSelectedItem() == 5 || (int) gameBoardSize.getSelectedItem() == 6
-                    || (int) gameBoardSize.getSelectedItem() == 7)
-            {
-                size = 150/(int) gameBoardSize.getSelectedItem();
-            }
-
-            else {
-                size = 12;
-            }
-
-            for (int i = 0; i < totalBoard; i++){
-                sosButtons[i] = new JButton();
-                buttonPanel.add(sosButtons[i]);
-                sosButtons[i].setFont(new Font("MV Boli", Font.BOLD,size));
-                sosButtons[i].setFocusable(false);
-                sosButtons[i].addActionListener(this);
-            }
-        }
-
-
-
-        for (int i = 0; i < totalBoard; i++ )
-        {
-            if (e.getSource() == sosButtons[i]){
-                if(player1_turn) {
-                    if(sosButtons[i].getText() == ""){
-                        gameBoardSize.setEnabled(false);
-                        simpleRadio.setEnabled(false);
-                        generalRadio.setEnabled(false);
-                        sosButtons[i].setForeground(new Color(255,0,0));
-                        sosButtons[i].setText(player1Text);
-                        player1_turn = false;
-                        turnTextField.setText("Player 2 Turn");
-                    }
-                }
-                else{
-                    if(sosButtons[i].getText() == ""){
-                        gameBoardSize.setEnabled(false);
-                        simpleRadio.setEnabled(false);
-                        generalRadio.setEnabled(false);
-                        sosButtons[i].setForeground(new Color(0,0,225));
-                        sosButtons[i].setText(player2Text);
-                        player1_turn = true;
-                        turnTextField.setText("Player 1 Turn");
-                    }
-                }
-            }
-
-        }
-
+    public JComboBox getGameBoardSize(){
+        return gameBoardSize;
     }
-    public void firstTurn(){
-        if (random.nextInt(2) == 0 )
-        {
-            player1_turn = true;
-            turnTextField.setText("Player 1 Turn");
-        }
 
-        else{
-            player1_turn = false;
-            turnTextField.setText("Player 2 Turn");
-        }
+    public String getPlayer1Text (){
+        return player1Text;
     }
+
+    public String getPlayer2Text (){
+        return player2Text;
+    }
+
+
 }

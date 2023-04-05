@@ -6,7 +6,10 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        new MyFrame();
+        MyFrame myFrame = new MyFrame();
+        boardSizePerfromed boardSize = new boardSizePerfromed(myFrame);
+        myFrame.getGameBoardSize().addActionListener(boardSize);
+
 
     }
 }
