@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class boardSizePerfromed implements ActionListener {
     private MyFrame myFrame;
-    boolean winOrNot;
+
     private checkMovePerfromed myMove;
 
     public boardSizePerfromed(MyFrame myFrame, checkMovePerfromed myMove) {
@@ -75,17 +75,12 @@ public class boardSizePerfromed implements ActionListener {
                             myFrame.sosButtons[i][j].setForeground(new Color(255, 0, 0));
                             myFrame.sosButtons[i][j].setText(myFrame.getPlayer1Text());
                             myFrame.sosButtons[i][j].getText();
-                            myFrame.sosButtons[i][j].putClientProperty("Row", i);
-                            myFrame.sosButtons[i][j].putClientProperty("Column", j);
 
-                            System.out.println(myFrame.sosButtons[i][j].getClientProperty("Row"));
-                            System.out.println(myFrame.sosButtons[i][j].getClientProperty("Column"));
-                           winOrNot = myMove.winCondition((int) myFrame.sosButtons[i][j].getClientProperty("Column"),
-                                    (int) myFrame.sosButtons[i][j].getClientProperty("Row"),
-                                    myFrame.sosButtons[i][j].getText());
-
-                           System.out.println(winOrNot);
-
+                            if (!myMove.winCondition(i,j,myFrame.sosButtons[i][j].getText()).isEmpty())
+                            {
+                                myFrame.turnTextField.setText("Player 1 Win");
+                                break;
+                            }
 
                             myFrame.player1_turn = false;
                             myFrame.turnTextField.setText("Player 2 Turn");
@@ -101,10 +96,12 @@ public class boardSizePerfromed implements ActionListener {
                             myFrame.sosButtons[i][j].putClientProperty("Column", j);
                             System.out.println(myFrame.sosButtons[i][j].getClientProperty("Row"));
                             System.out.println(myFrame.sosButtons[i][j].getClientProperty("Column"));
-                            winOrNot = myMove.winCondition((int) myFrame.sosButtons[i][j].getClientProperty("Column"),
-                                    (int) myFrame.sosButtons[i][j].getClientProperty("Row"),
-                                    myFrame.sosButtons[i][j].getText());
-                            System.out.println(winOrNot);
+                            if (!myMove.winCondition(i,j,myFrame.sosButtons[i][j].getText()).isEmpty())
+                            {
+                                myFrame.turnTextField.setText("Player 2 Win");
+                                break;
+                            }
+
                             myFrame.player1_turn = true;
                             myFrame.turnTextField.setText("Player 1 Turn");
                         }
