@@ -40,7 +40,7 @@ public class MyFrame extends JFrame {
     JTextField turnTextField;
     JButton replayButton;
     JButton newGmButton;
-    JButton[] sosButtons;
+    JButton[][] sosButtons;
     private JComboBox gameBoardSize;
     boolean player1_turn;
     MyFrame(){
@@ -74,8 +74,8 @@ public class MyFrame extends JFrame {
         gameType = new ButtonGroup();
         gameType.add(generalRadio);
         gameType.add(simpleRadio);
-        generalRadio.setBounds(550,40,150,50);
-        simpleRadio.setBounds(550,90,150,50);
+        simpleRadio.setBounds(550,40,150,50);
+        generalRadio.setBounds(550,90,150,50);
         this.add(generalRadio);
         this.add(simpleRadio);
         this.add(labelBoard);

@@ -4,9 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class boardSizePerfromed implements ActionListener {
     private MyFrame myFrame;
+    boolean winOrNot;
+    private checkMovePerfromed myMove;
 
-    public boardSizePerfromed(MyFrame myFrame) {
+    public boardSizePerfromed(MyFrame myFrame, checkMovePerfromed myMove) {
         this.myFrame = myFrame;
+        this.myMove = myMove;
+
     }
 
     public void firstTurn(){
@@ -33,7 +37,7 @@ public class boardSizePerfromed implements ActionListener {
             myFrame.revalidate();
             myFrame.repaint();
             myFrame.totalBoard = (int) myFrame.getGameBoardSize().getSelectedItem() * (int) myFrame.getGameBoardSize().getSelectedItem();
-            myFrame.sosButtons = new JButton[myFrame.totalBoard];
+            myFrame.sosButtons = new JButton[(int) myFrame.getGameBoardSize().getSelectedItem()][(int) myFrame.getGameBoardSize().getSelectedItem()];
             myFrame.buttonPanel.setBorder(myFrame.buttonPanel.getBorder());
             myFrame.buttonPanel.setLayout(new GridLayout((int) myFrame.getGameBoardSize().getSelectedItem(),(int) myFrame.getGameBoardSize().getSelectedItem()));
             myFrame.buttonPanel.setBackground(Color.LIGHT_GRAY);
@@ -48,45 +52,66 @@ public class boardSizePerfromed implements ActionListener {
                 myFrame.size = 12;
             }
 
-            for (int i = 0; i < myFrame.totalBoard; i++){
-                myFrame.sosButtons[i] = new JButton();
-                myFrame.buttonPanel.add( myFrame.sosButtons[i]);
-                myFrame.sosButtons[i].setFont(new Font("MV Boli", Font.BOLD,myFrame.size));
-                myFrame.sosButtons[i].setFocusable(false);
-                myFrame.sosButtons[i].addActionListener(this);
+            for (int i = 0; i < (int) myFrame.getGameBoardSize().getSelectedItem(); i++){
+                for (int j = 0; j < (int) myFrame.getGameBoardSize().getSelectedItem(); j++) {
+                    myFrame.sosButtons[i][j] =new JButton();
+                    myFrame.buttonPanel.add(myFrame.sosButtons[i][j]);
+                    myFrame.sosButtons[i][j].setFont(new Font("MV Boli", Font.BOLD, myFrame.size));
+                    myFrame.sosButtons[i][j].addActionListener(this);
+                }
             }
         }
 
 
 
-        for (int i = 0; i < myFrame.totalBoard; i++ )
-        {
-            if (e.getSource() ==  myFrame.sosButtons[i]){
-                if(myFrame.player1_turn) {
-                    if( myFrame.sosButtons[i].getText() == ""){
+        for (int i = 0; i < (int) myFrame.getGameBoardSize().getSelectedItem(); i++ ) {
+            for (int j = 0; j < (int) myFrame.getGameBoardSize().getSelectedItem(); j++) {
+                if (e.getSource() == myFrame.sosButtons[i][j]) {
+                    if (myFrame.player1_turn) {
+                        if (myFrame.sosButtons[i][j].getText() == "") {
+                            myFrame.getGameBoardSize().setEnabled(false);
+                            myFrame.simpleRadio.setEnabled(false);
+                            myFrame.generalRadio.setEnabled(false);
+                            myFrame.sosButtons[i][j].setForeground(new Color(255, 0, 0));
+                            myFrame.sosButtons[i][j].setText(myFrame.getPlayer1Text());
+                            myFrame.sosButtons[i][j].getText();
+                            myFrame.sosButtons[i][j].putClientProperty("Row", i);
+                            myFrame.sosButtons[i][j].putClientProperty("Column", j);
 
-                        myFrame.getGameBoardSize().setEnabled(false);
-                        myFrame.simpleRadio.setEnabled(false);
-                        myFrame.generalRadio.setEnabled(false);
-                        myFrame.sosButtons[i].setForeground(new Color(255,0,0));
-                        myFrame.sosButtons[i].setText(myFrame.getPlayer1Text());
-                        myFrame.player1_turn = false;
-                        myFrame.turnTextField.setText("Player 2 Turn");
+                            System.out.println(myFrame.sosButtons[i][j].getClientProperty("Row"));
+                            System.out.println(myFrame.sosButtons[i][j].getClientProperty("Column"));
+                           winOrNot = myMove.winCondition((int) myFrame.sosButtons[i][j].getClientProperty("Column"),
+                                    (int) myFrame.sosButtons[i][j].getClientProperty("Row"),
+                                    myFrame.sosButtons[i][j].getText());
+
+                           System.out.println(winOrNot);
+
+
+                            myFrame.player1_turn = false;
+                            myFrame.turnTextField.setText("Player 2 Turn");
+                        }
+                    } else {
+                        if (myFrame.sosButtons[i][j].getText() == "") {
+                            myFrame.getGameBoardSize().setEnabled(false);
+                            myFrame.simpleRadio.setEnabled(false);
+                            myFrame.generalRadio.setEnabled(false);
+                            myFrame.sosButtons[i][j].setForeground(new Color(0, 0, 225));
+                            myFrame.sosButtons[i][j].setText(myFrame.getPlayer2Text());
+                            myFrame.sosButtons[i][j].putClientProperty("Row", i);
+                            myFrame.sosButtons[i][j].putClientProperty("Column", j);
+                            System.out.println(myFrame.sosButtons[i][j].getClientProperty("Row"));
+                            System.out.println(myFrame.sosButtons[i][j].getClientProperty("Column"));
+                            winOrNot = myMove.winCondition((int) myFrame.sosButtons[i][j].getClientProperty("Column"),
+                                    (int) myFrame.sosButtons[i][j].getClientProperty("Row"),
+                                    myFrame.sosButtons[i][j].getText());
+                            System.out.println(winOrNot);
+                            myFrame.player1_turn = true;
+                            myFrame.turnTextField.setText("Player 1 Turn");
+                        }
                     }
                 }
-                else{
-                    if( myFrame.sosButtons[i].getText() == ""){
-                        myFrame.getGameBoardSize().setEnabled(false);
-                        myFrame.simpleRadio.setEnabled(false);
-                        myFrame.generalRadio.setEnabled(false);
-                        myFrame.sosButtons[i].setForeground(new Color(0,0,225));
-                        myFrame.sosButtons[i].setText(myFrame.getPlayer2Text());
-                        myFrame.player1_turn = true;
-                        myFrame.turnTextField.setText("Player 1 Turn");
-                    }
-                }
+
             }
-
         }
     }
 }
