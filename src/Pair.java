@@ -23,5 +23,4 @@ public class Pair {
     {
         return new Pair(r - other.getR(), c - other.getC());
     }
-
 }

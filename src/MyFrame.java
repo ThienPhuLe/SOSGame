@@ -1,12 +1,13 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class MyFrame extends JFrame {
     radioPerfromedClass myAction = new radioPerfromedClass(this);
+    checkMovePerfromed myMove = new checkMovePerfromed(this );
+    boardPerfromed boardSize = new boardPerfromed(this, myMove);
+    newGame myGame = new newGame(this);
     Random random ;
     int size;
     public String player1Text = "S";
@@ -43,6 +44,7 @@ public class MyFrame extends JFrame {
     JButton[][] sosButtons;
     private JComboBox gameBoardSize;
     boolean player1_turn;
+    JLayeredPane layeredPane;
     MyFrame(){
 
         // Main/Head Jpanel
@@ -60,6 +62,7 @@ public class MyFrame extends JFrame {
         labelBoard.setText("Board Size: ");
         Integer[] boardSizeSelection = { 0, 3, 4, 5, 6, 7, 8, 9};
         gameBoardSize = new JComboBox(boardSizeSelection);
+        gameBoardSize.addActionListener(boardSize);
         //gameBoardSize.addActionListener(this);
         this.add(label);
         label.setIcon(image);
@@ -86,10 +89,13 @@ public class MyFrame extends JFrame {
 
         //Center JPanel
         buttonPanel = new JPanel();
+        layeredPane = new JLayeredPane();
+        this.add(layeredPane);
         this.add(buttonPanel);
         buttonPanel.setBorder(border);
         buttonPanel.setBackground(Color.LIGHT_GRAY);
         buttonPanel.setBounds(160,170,380,380);
+        layeredPane.setBounds(160,170,380,380);
 
 
         // Right Jpanel
@@ -165,6 +171,7 @@ public class MyFrame extends JFrame {
         newGmButton = new JButton();
         replayButton.setText("Replay");
         newGmButton.setText("New Game");
+        newGmButton.addActionListener(myGame);
         turnTextField.setEditable(false);
         turnTextField.setText("Current Turn");
         turnTextField.setFont(new Font("serif",Font.BOLD,20));
