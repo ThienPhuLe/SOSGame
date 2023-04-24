@@ -42,6 +42,7 @@ public class MyFrame extends JFrame {
     JButton replayButton;
     JButton newGmButton;
     JButton[][] sosButtons;
+    JOptionPane optionAnser;
     private JComboBox gameBoardSize;
     boolean player1_turn;
     JLayeredPane layeredPane;

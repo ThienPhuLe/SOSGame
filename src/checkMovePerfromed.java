@@ -1,4 +1,4 @@
-import java.awt.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +10,6 @@ public class checkMovePerfromed {
     public checkMovePerfromed(MyFrame myFrame) {
         this.myFrame = myFrame;
     }
-
     public String getLetter(MyFrame myFrame, Pair myPair) {
         if (0 <= myPair.getR() && myPair.getR() < (int) myFrame.getGameBoardSize().getSelectedItem() &&
                 0 <= myPair.getC() && myPair.getC() < (int) myFrame.getGameBoardSize().getSelectedItem()) {
