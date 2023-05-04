@@ -5,8 +5,6 @@ import java.util.List;
 
 public class checkMovePerfromed {
     private MyFrame myFrame;
-
-
     public checkMovePerfromed(MyFrame myFrame) {
         this.myFrame = myFrame;
     }
@@ -22,8 +20,6 @@ public class checkMovePerfromed {
 
     public List<List<Pair>> winCondition(int row, int col, String getText) {
         List<List<Pair>> SOSs = new ArrayList<>();
-
-
         List<Pair> direction = new ArrayList<>();
         direction.add(new Pair(0, 1));
         direction.add(new Pair(1, 1));
@@ -34,7 +30,6 @@ public class checkMovePerfromed {
         if (getText == "O") {
             for (int i = 0; i < direction.size(); i++) {
                 Pair dirPair = direction.get(i);
-
                 Pair S1 = coordinate.add(dirPair);
                 Pair S2 = coordinate.sub(dirPair);
 
@@ -44,7 +39,6 @@ public class checkMovePerfromed {
                     SOS.add(coordinate);
                     SOS.add(S2);
                     SOSs.add(SOS);
-
                 }
             }
 

@@ -5,6 +5,12 @@ import java.awt.event.ActionListener;
 
 public class boardPerfromed implements ActionListener {
     private MyFrame myFrame;
+    Timer timer = new Timer(1000, new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            // This code will be executed every 5 seconds
+            System.out.println("1 seconds have passed");
+        }
+    });
     int countPlayer1 = 0;
     int countPlayer2 = 0;
     int Rn;
@@ -12,10 +18,12 @@ public class boardPerfromed implements ActionListener {
     boolean gameContinue = true;
     int count = 0;
     private checkMovePerfromed myMove;
+    private aiModeClass myAi;
 
-    public boardPerfromed(MyFrame myFrame, checkMovePerfromed myMove) {
+    public boardPerfromed(MyFrame myFrame, checkMovePerfromed myMove, aiModeClass myAi) {
         this.myFrame = myFrame;
         this.myMove = myMove;
+        this.myAi = myAi;
 
     }
 
@@ -64,6 +72,7 @@ public class boardPerfromed implements ActionListener {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
                                     onSOSButtonPressed(finalI, finalJ);
+
                                 }
                             }
                     );
@@ -83,6 +92,7 @@ public class boardPerfromed implements ActionListener {
                 myFrame.sosButtons[i][j].setForeground(new Color(255, 0, 0));
                 myFrame.sosButtons[i][j].setText(myFrame.getPlayer1Text());
                 myFrame.sosButtons[i][j].getText();
+            }
                 count++;
                 if (myFrame.simpleRadio.isSelected()) {
                     simpleGameWin(i, j);
@@ -90,30 +100,37 @@ public class boardPerfromed implements ActionListener {
                     generalGame(i, j);
                 }
 
-
                 myFrame.player1_turn = false;
                 myFrame.turnTextField.setText("Player 2 Turn");
-            }
+                if (myFrame.player2Ai == true)
+                {
+                    timer.start();
+                    timer.stop();
+                    myAi.aiMove((int) myFrame.getGameBoardSize().getSelectedItem(),(int) myFrame.getGameBoardSize().getSelectedItem(),"Player 2 Turn");
+                }
+
         } else {
             if (myFrame.sosButtons[i][j].getText() == "") {
-                count++;
                 myFrame.getGameBoardSize().setEnabled(false);
                 myFrame.simpleRadio.setEnabled(false);
                 myFrame.generalRadio.setEnabled(false);
                 myFrame.sosButtons[i][j].setForeground(new Color(0, 0, 225));
                 myFrame.sosButtons[i][j].setText(myFrame.getPlayer2Text());
-                myFrame.sosButtons[i][j].putClientProperty("Row", i);
-                myFrame.sosButtons[i][j].putClientProperty("Column", j);
-                if (myFrame.simpleRadio.isSelected()) {
-                    simpleGameWin(i, j);
+            }
+            count++;
+            if (myFrame.simpleRadio.isSelected()) {
+                simpleGameWin(i, j);
 
-                } else if (myFrame.generalRadio.isSelected()) {
-                    generalGame(i, j);
-                }
-
-
-                myFrame.player1_turn = true;
-                myFrame.turnTextField.setText("Player 1 Turn");
+            } else if (myFrame.generalRadio.isSelected()) {
+                generalGame(i, j);
+            }
+            myFrame.player1_turn = true;
+            myFrame.turnTextField.setText("Player 1 Turn");
+            if (myFrame.player1Ai == true)
+            {
+                timer.start();
+                timer.stop();
+                myAi.aiMove((int) myFrame.getGameBoardSize().getSelectedItem(),(int) myFrame.getGameBoardSize().getSelectedItem(),"Player 1 Turn");
             }
         }
     }
@@ -194,4 +211,5 @@ public class boardPerfromed implements ActionListener {
             myFrame.turnTextField.setText("Current Turn");
         }
     }
+
 }

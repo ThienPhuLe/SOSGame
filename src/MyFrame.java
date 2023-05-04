@@ -4,14 +4,17 @@ import java.awt.*;
 import java.util.Random;
 
 public class MyFrame extends JFrame {
-    radioPerfromedClass myAction = new radioPerfromedClass(this);
     checkMovePerfromed myMove = new checkMovePerfromed(this );
-    boardPerfromed boardSize = new boardPerfromed(this, myMove);
+    aiModeClass myAi = new aiModeClass(this,myMove);
+    radioPerfromedClass myAction = new radioPerfromedClass(this, myAi);
+    boardPerfromed boardSize = new boardPerfromed(this, myMove, myAi);
     newGame myGame = new newGame(this);
     Random random ;
     int size;
     public String player1Text = "S";
+    public Boolean player1Ai = false;
     public String player2Text = "S";
+    public Boolean player2Ai = false;
     int totalBoard ;
     ImageIcon image;
     JLabel label;
@@ -108,6 +111,7 @@ public class MyFrame extends JFrame {
         player1ButtonO = new JRadioButton("O");
         player1ButtonO.addActionListener(myAction);
         player1Human = new JRadioButton("Human");
+        player1Human.setSelected(true);
         player1Computer = new JRadioButton("Computer");
         player1Group = new ButtonGroup();
         player1Type = new ButtonGroup();
@@ -115,6 +119,7 @@ public class MyFrame extends JFrame {
         player1Group.add(player1ButtonO);
         player1Type.add(player1Human);
         player1Type.add(player1Computer);
+        player1Computer.addActionListener(myAction);
         right_panel.setLayout(null);
         right_panLabel.setText("Player 1");
         right_panLabel.setBounds(50,10,50,50);
@@ -139,7 +144,9 @@ public class MyFrame extends JFrame {
         player2ButtonO = new JRadioButton("O");
         player2ButtonO.addActionListener(myAction);
         player2Computer = new JRadioButton("Computer");
+        player2Computer.addActionListener(myAction);
         player2Human = new JRadioButton("Human");
+        player2Human.setSelected(true);
         player2Group = new ButtonGroup();
         player2Type = new ButtonGroup();
         left_panel.setLayout(null);
