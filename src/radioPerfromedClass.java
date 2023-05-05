@@ -6,12 +6,6 @@ import java.awt.event.ItemListener;
 
 public class radioPerfromedClass implements ActionListener {
     private MyFrame myFrame;
-    Timer timer = new Timer(1000, new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            // This code will be executed every 5 seconds
-            System.out.println("1 seconds have passed");
-        }
-    });
     private aiModeClass myAi;
 
     boolean check = true;
@@ -72,6 +66,10 @@ public class radioPerfromedClass implements ActionListener {
                 }
             }
 
+            else {
+                myFrame.player1Ai = false;
+            }
+
 
             if (myFrame.player2Computer.isSelected())
             {
@@ -104,6 +102,10 @@ public class radioPerfromedClass implements ActionListener {
                     }
 
                 }
+            }
+
+            else {
+                myFrame.player2Ai = false;
             }
     }
 }
