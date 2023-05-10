@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 public class boardPerfromed implements ActionListener {
     private MyFrame myFrame;
-
     int countPlayer1 = 0;
     int countPlayer2 = 0;
     int Rn;
@@ -66,7 +65,11 @@ public class boardPerfromed implements ActionListener {
                             new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-                                    onSOSButtonPressed(finalI, finalJ);
+                                    try {
+                                        onSOSButtonPressed(finalI, finalJ);
+                                    } catch (InterruptedException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
 
                                 }
                             }
@@ -78,7 +81,7 @@ public class boardPerfromed implements ActionListener {
     }
 
 
-    public void onSOSButtonPressed(int i, int j) {
+    public void onSOSButtonPressed(int i, int j) throws InterruptedException {
         if (myFrame.player1_turn) {
             if (myFrame.sosButtons[i][j].getText() == "") {
                 myFrame.getGameBoardSize().setEnabled(false);
@@ -99,6 +102,7 @@ public class boardPerfromed implements ActionListener {
                 myFrame.turnTextField.setText("Player 2 Turn");
                 if (myFrame.player2Ai == true)
                 {
+                    Thread.sleep(1000);
                     myAi.aiMove((int) myFrame.getGameBoardSize().getSelectedItem(),(int) myFrame.getGameBoardSize().getSelectedItem(),"Player 2 Turn");
                 }
 
@@ -121,6 +125,7 @@ public class boardPerfromed implements ActionListener {
             myFrame.turnTextField.setText("Player 1 Turn");
             if (myFrame.player1Ai == true)
             {
+                Thread.sleep(1000);
                 myAi.aiMove((int) myFrame.getGameBoardSize().getSelectedItem(),(int) myFrame.getGameBoardSize().getSelectedItem(),"Player 1 Turn");
             }
         }
